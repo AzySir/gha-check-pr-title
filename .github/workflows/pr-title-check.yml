@@ -12,7 +12,9 @@ jobs:
           script: |
             const { title } = context.payload.pull_request
             if (!title.includes("INC") && !title.includes("CHG")) {
-              core.error(`PR does not include an INC Number or a CHG Number`)
+              const errorMessage = `PR does not include an INC Number or a CHG Number`
+              core.error(errorMessage)
+              throw new Error(errorMessage)
             }
             if (title.includes("INC")) {
               core.setOutput("type", "incident")
