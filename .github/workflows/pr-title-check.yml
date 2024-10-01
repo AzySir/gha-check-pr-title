@@ -27,8 +27,8 @@ jobs:
         with:
           script: |
             const releaseType = "${{ steps.get-pr-type.outputs.type }}"
-            if (releaseType != "incident" || releaseType != "change-request") {
-              throw new Error("Release Type not found")
+            if (releaseType != "incident" && releaseType != "change-request") {
+              throw new Error(`${releaseType} Release Type not found`)
             }
 
             if (releaseType == "incident") {
