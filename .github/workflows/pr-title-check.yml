@@ -27,4 +27,14 @@ jobs:
         with:
           script: |
             const releaseType = ${{ steps.get-pr-type.output.type }}
-            console.log("Send API Request to preferred destinnation i.e - Service Now")
+            if (releaseType == "incident" || releaseType != "change-request") {
+              throw new Error("Release Type not found")
+            }
+
+            if (releaseType == "incident") {
+              console.log("Send API Request to Service Now to Add a PR Number/URL to the Incident")
+            }
+
+            if (releaseType == "change-request") {
+              console.log("Send API Request to Service Now to Add a PR Number/URL to the Change Request")
+            }
