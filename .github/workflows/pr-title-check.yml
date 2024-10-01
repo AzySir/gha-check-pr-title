@@ -26,7 +26,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const releaseType = ${{ steps.get-pr-type.output.type }}
+            const releaseType = "${{ steps.get-pr-type.outputs.type }}"
             if (releaseType == "incident" || releaseType != "change-request") {
               throw new Error("Release Type not found")
             }
