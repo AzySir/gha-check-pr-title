@@ -6,8 +6,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7
+        name: Get PR Type
+        id: get-pr-type
         with:
           script: |
-            console.log(JSON.stringify(context))
-            console.log('------------------------\n\n\n')
-            console.log(JSON.stringify(context.payload.pull_request))
+            const { title } = context.payload.pull_request
+            if (!title.includes("INC") && !title.includes("CHG")) {
+              core.error(`PR does not include an INC Number or a CHG Number`)
+            }
+            if (title.includes("INC")) {
+              core.setOutput("type", "incident")
+            }
+            if (title.includes("CHG")) {
+              core.setOutput("type", "change-request")
+            }
+      - name: Send Release Type
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const releaseType = ${{ steps.get-pr-type.output.type }}
+            console.log("Send API Request to preferred destinnation i.e - Service Now")
