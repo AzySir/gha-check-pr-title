@@ -1,0 +1,8 @@
+---
+name: Name Test PR Title Check
+on:
+  pull_request:
+
+jobs:
+  pr-title-check:
+    uses: ./.github/workflows/pr-title-check.yml
